@@ -1,4 +1,5 @@
-﻿using App2.Views;
+﻿using App2.Services;
+using App2.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -47,14 +48,25 @@ namespace App2.ViewModels
         public bool IsAllowLogin(object obj) => !string.IsNullOrEmpty(_userName) && !string.IsNullOrEmpty(_password);
         private async void OnLoginClicked(object obj)
         {
+            this.IsBusy = true;
             if (Connectivity.NetworkAccess == NetworkAccess.None)
             {
                 await App.Current.MainPage.DisplayAlert("Cannot connect", "Check your internet connection", "Ok");
+                this.IsBusy = false;
                 return;
             }
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
             if (!string.IsNullOrEmpty(_userName) && !string.IsNullOrEmpty(_password))
-                await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+            {
+                LoginService loginService = new LoginService();
+                var res = await loginService.Login(_userName, _password);
+                if (res != String.Empty)
+                {
+                    this.IsBusy = false;
+                    await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+                }
+            }
+            
 
         }
     }

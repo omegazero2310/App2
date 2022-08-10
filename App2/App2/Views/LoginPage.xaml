@@ -8,9 +8,11 @@
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
         <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Entry x:Name="txtUserName" Placeholder="User Name" Text="{Binding UserName}"  />
-            <Entry x:Name="txtPassword" IsPassword="True" Placeholder="Password" Text="{Binding Password}"/>
-            <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}" IsEnabled="{Binding IsAllowLogin}" />
+            <Image x:Name="imgLogo"/>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" />
+            <Entry x:Name="txtUserName" Placeholder="User Name" Text="{Binding UserName, Mode=TwoWay}"  />
+            <Entry x:Name="txtPassword" IsPassword="True" Placeholder="Password" Text="{Binding Password, Mode=TwoWay}"/>
+            <Button x:Name="btnLogin" VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}" IsEnabled="{Binding IsAllowLogin}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

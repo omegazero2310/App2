@@ -16,7 +16,7 @@ namespace App2.Views
         {
             InitializeComponent();
             this.BindingContext = new LoginViewModel();
+            imgLogo.Source = ImageSource.FromResource("App2.Imgs.icons8xamarin96.png", typeof(LoginPage).Assembly);
         }
-
     }
 }
