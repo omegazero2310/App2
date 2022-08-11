@@ -14,6 +14,21 @@ namespace App2.ViewModels
         public Command LoginCommand { get; }
         private string _userName;
         private string _password;
+        private ImageSource _image;
+        public ImageSource ImageLogo 
+        {
+            get
+            {
+                if(_image == null)
+                    _image = ImageSource.FromResource("App2.Imgs.icons8xamarin96.png", typeof(LoginPage).Assembly);
+                return _image;
+            }
+            set
+            {
+                _image = value;
+                OnPropertyChanged();
+            }
+        }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Username should not be empty")]
         public string UserName
         {
@@ -25,6 +40,7 @@ namespace App2.ViewModels
             {
                 _userName = value;
                 LoginCommand.ChangeCanExecute();
+                OnPropertyChanged();
             }
         }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Password should not be empty")]
@@ -38,6 +54,7 @@ namespace App2.ViewModels
             {
                 _password = value;
                 LoginCommand.ChangeCanExecute();
+                OnPropertyChanged();
             }
         }
 

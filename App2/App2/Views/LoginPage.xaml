@@ -7,12 +7,22 @@
              x:Class="App2.Views.LoginPage"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
-        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Image x:Name="imgLogo"/>
-            <ActivityIndicator IsRunning="{Binding IsBusy}" />
-            <Entry x:Name="txtUserName" Placeholder="User Name" Text="{Binding UserName, Mode=TwoWay}"  />
-            <Entry x:Name="txtPassword" IsPassword="True" Placeholder="Password" Text="{Binding Password, Mode=TwoWay}"/>
-            <Button x:Name="btnLogin" VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}" IsEnabled="{Binding IsAllowLogin}" />
-        </StackLayout>
+        <Grid Margin="0,-15,0,0" Padding="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="1*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Frame Grid.Row="0" BackgroundColor="#95B9C3" CornerRadius="20">
+                <Image x:Name="imgLogo" Source="{Binding ImageLogo}"/>
+            </Frame>
+            <StackLayout Grid.Row="1" Padding="10,0,10,0" VerticalOptions="Center" IsEnabled="False">
+                <Entry x:Name="txtUserName" Placeholder="User Name" Text="{Binding UserName, Mode=TwoWay}"  />
+                <Entry x:Name="txtPassword" IsPassword="True" Placeholder="Password" Text="{Binding Password, Mode=TwoWay}"/>
+                <Button x:Name="btnLogin" VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}" IsEnabled="{Binding IsAllowLogin}" />
+            </StackLayout>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
