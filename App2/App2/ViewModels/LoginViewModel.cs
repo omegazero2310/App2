@@ -74,18 +74,29 @@ namespace App2.ViewModels
             }
             else if (!string.IsNullOrEmpty(_userName) && !string.IsNullOrEmpty(_password))
             {
-                LoginService loginService = new LoginService();
-                var res = await loginService.Login(_userName, _password);
-                if (res.Length > 0)
+                try
                 {
-                    this.IsBusy = false;
-                    // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-                    await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+                    LoginService loginService = new LoginService();
+                    var res = await loginService.Login(_userName, _password);
+                    if (res.Length > 0)
+                    {
+                        this.IsBusy = false;
+                        // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
+                        await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+                    }
+                    else
+                    {
+                        await App.Current.MainPage.DisplayAlert("Cannot Login", "Wrong User Name of Passwrod", "Ok");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    await App.Current.MainPage.DisplayAlert("Cannot Login", "Wrong password of User Name", "Ok");
-                }    
+                    if(ex.Message.Contains("400"))
+                        await App.Current.MainPage.DisplayAlert("Cannot Login", "Wrong User Name of Passwrod", "Ok");
+                    else
+                        await App.Current.MainPage.DisplayAlert("Server Error", ex.Message, "Ok");
+                }
+                   
             }
             this.IsBusy = false;
 
