@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace App2.Services
 {
@@ -48,6 +49,8 @@ namespace App2.Services
                 message.Content = new StringContent(JsonConvert.SerializeObject(userLogin), Encoding.UTF8, "application/json");
                 var respone = await _httpClient.SendAsync(message);
                 respone.EnsureSuccessStatusCode();
+                //lấy token lưu tạm để dùng cho các lần sau
+                await SecureStorage.SetAsync("JWT", respone.Content.ReadAsStringAsync().Result);
                 return respone.Content.ReadAsStringAsync().Result;
             }
             catch (Exception)

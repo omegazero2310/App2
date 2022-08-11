@@ -72,18 +72,23 @@ namespace App2.ViewModels
                 this.IsBusy = false;
                 return;
             }
-            // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            if (!string.IsNullOrEmpty(_userName) && !string.IsNullOrEmpty(_password))
+            else if (!string.IsNullOrEmpty(_userName) && !string.IsNullOrEmpty(_password))
             {
                 LoginService loginService = new LoginService();
                 var res = await loginService.Login(_userName, _password);
                 if (res != String.Empty)
                 {
                     this.IsBusy = false;
+                    // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
                     await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
                 }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Cannot Login", "Wrong password of User Name", "Ok");
+                }    
             }
-            
+            this.IsBusy = false;
+
 
         }
     }
