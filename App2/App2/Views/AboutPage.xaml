@@ -17,22 +17,30 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1.5*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Frame  Grid.Row="0" BackgroundColor="#95B9C3" Padding="0,0,0,0">
-            <Image Source="{Binding ImageProfile}" HorizontalOptions="Fill" VerticalOptions="Fill" />
+        <Frame  Grid.Row="0" BackgroundColor="#40ac4c" Padding="0,0,0,0"/>
+        <Frame Grid.Row="1" BackgroundColor="#ffffff" Padding="0,0,0,0" Margin="35,-100,35,70">
+            <Grid RowDefinitions="1*,1*,1*,1*" ColumnDefinitions="1*,1*">
+                <Label Grid.Row="2" Grid.Column="0" Text="number1" HorizontalOptions="Center" Padding="0,35,0,0" TextColor="Black" FontAttributes="Bold"/>
+                <Label Grid.Row="3" Grid.Column="0" Text="column1" HorizontalOptions="Center"/>
+                <Label Grid.Row="2" Grid.Column="1" Text="number2" HorizontalOptions="Center" Padding="0,35,0,0" TextColor="Black" FontAttributes="Bold"/>
+                <Label Grid.Row="3" Grid.Column="1" Text="column2" HorizontalOptions="Center"/>
+            </Grid>
         </Frame>
-        <StackLayout Padding="40,-120,40,40" Grid.Row="1" >
+        <StackLayout Padding="40,-120,40,40" Grid.Row="2" HorizontalOptions="Center" Margin="0,-262,0,0">
             <Frame CornerRadius="100" HeightRequest="200" WidthRequest="200" HorizontalOptions="Center" Padding="0" IsClippedToBounds="True">
                 <Image Source="{Binding ImageProfile}" HorizontalOptions="Fill" VerticalOptions="Fill" />
             </Frame>
-        </StackLayout>
-        <Frame Grid.Row="2" HeightRequest="40" WidthRequest="80" CornerRadius="20" 
+            <Frame HeightRequest="40" WidthRequest="80" CornerRadius="20" 
                HorizontalOptions="Center" VerticalOptions="Center" 
-               Margin="0,-650,0,0" Padding="0" BackgroundColor="#7A7A7A" >
-            <Label Text="Test" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="LawnGreen"/>
-        </Frame>
+                Padding="0" BackgroundColor="#white" Margin="0,-30,0,0" >
+                <Label Text="Test" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"/>
+            </Frame>
+        </StackLayout>
+        
     </Grid>
 </ContentPage>
