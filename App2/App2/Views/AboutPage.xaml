@@ -22,7 +22,7 @@
             <RowDefinition Height="2*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Frame  Grid.Row="0" BackgroundColor="#40ac4c" Padding="0,0,0,0"/>
+        <Frame Grid.Row="0" BackgroundColor="#40ac4c" Padding="0,0,0,0"/>
         <Frame Grid.Row="1" BackgroundColor="#ffffff" Padding="0,0,0,0" Margin="35,-100,35,70">
             <Grid RowDefinitions="1*,1*,1*,1*" ColumnDefinitions="1*,1*">
                 <Label Grid.Row="2" Grid.Column="0" Text="number1" HorizontalOptions="Center" Padding="0,35,0,0" TextColor="Black" FontAttributes="Bold"/>

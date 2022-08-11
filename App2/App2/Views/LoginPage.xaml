@@ -14,7 +14,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Frame Grid.Row="0" BackgroundColor="#95B9C3" CornerRadius="20">
+            <Frame Grid.Row="0" BackgroundColor="#40ac4c" CornerRadius="20">
                 <Image x:Name="imgLogo" Source="{Binding ImageLogo}" Aspect="AspectFit" HorizontalOptions="CenterAndExpand" Margin="0,200,0,0" Scale="3" />
             </Frame>
             <StackLayout Grid.Row="1" Padding="10,0,10,0" VerticalOptions="Center">
