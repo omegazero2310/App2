@@ -17,9 +17,9 @@
             <Frame Grid.Row="0" BackgroundColor="#95B9C3" CornerRadius="20">
                 <Image x:Name="imgLogo" Source="{Binding ImageLogo}" Aspect="AspectFit" HorizontalOptions="CenterAndExpand" Margin="0,200,0,0" Scale="3" />
             </Frame>
-            <StackLayout Grid.Row="1" Padding="10,0,10,0" VerticalOptions="Center" IsEnabled="False">
-                <Entry x:Name="txtUserName" Placeholder="User Name" Text="{Binding UserName, Mode=TwoWay}"  />
-                <Entry x:Name="txtPassword" IsPassword="True" Placeholder="Password" Text="{Binding Password, Mode=TwoWay}"/>
+            <StackLayout Grid.Row="1" Padding="10,0,10,0" VerticalOptions="Center">
+                <Entry x:Name="txtUserName" Placeholder="User Name" Text="{Binding UserName, Mode=TwoWay}" ReturnType="Next"  />
+                <Entry x:Name="txtPassword" IsPassword="True" Placeholder="Password" Text="{Binding Password, Mode=TwoWay}" ReturnType="Next" />
                 <Button x:Name="btnLogin" VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}" IsEnabled="{Binding IsAllowLogin}" />
             </StackLayout>
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
