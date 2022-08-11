@@ -76,7 +76,7 @@ namespace App2.ViewModels
             {
                 LoginService loginService = new LoginService();
                 var res = await loginService.Login(_userName, _password);
-                if (res != String.Empty)
+                if (res.Length > 0)
                 {
                     this.IsBusy = false;
                     // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
