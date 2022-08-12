@@ -70,7 +70,7 @@ namespace App2.ViewModels
 
         private async void OnAddEmployee(object obj)
         {
-            await Shell.Current.GoToAsync(nameof(NewItemPage));
+            await Shell.Current.GoToAsync(nameof(NewEmployeePage));
         }
 
         private async void OnEmployeeSelected(Employee item)

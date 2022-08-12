@@ -31,10 +31,10 @@ namespace App2.Services
             {
                 var getJwtString = SecureStorage.GetAsync("JWT").Result;
                 _userTokens = JsonConvert.DeserializeObject<UserTokens>(SecureStorage.GetAsync("JWT").Result);
-                if (_userTokens.ExpiredTime.CompareTo(DateTime.Now) < 0)
-                {
-                    throw new Exception("MSG_SESSION_EXPIRED");
-                }
+                //if (_userTokens.ExpiredTime.CompareTo(DateTime.Now) < 0)
+                //{
+                //    throw new Exception("MSG_SESSION_EXPIRED");
+                //}
             }
         }
         public HttpClientHandler GetInsecureHandler()
