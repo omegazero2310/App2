@@ -1,4 +1,5 @@
 ﻿using App2.Models;
+using App2.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +12,7 @@ namespace App2.ViewModels
     {
         private string text;
         private string description;
-
+        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
         public NewItemViewModel()
         {
             SaveCommand = new Command(OnSave, ValidateSave);

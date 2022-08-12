@@ -14,6 +14,7 @@ namespace App2
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
+            DependencyService.Register<EmployeeService>();
             MainPage = new AppShell();
         }
         protected override void OnStart()

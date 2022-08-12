@@ -1,4 +1,5 @@
 ﻿using App2.Models;
+using App2.Services;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace App2.ViewModels
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
     public class ItemDetailViewModel : BaseViewModel
     {
+        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
         private string itemId;
         private string text;
         private string description;

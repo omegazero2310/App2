@@ -1,4 +1,5 @@
 ﻿using App2.Models;
+using App2.Services;
 using App2.Views;
 using System;
 using System.Collections.ObjectModel;
@@ -11,7 +12,7 @@ namespace App2.ViewModels
     public class ItemsViewModel : BaseViewModel
     {
         private Item _selectedItem;
-
+        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
         public ObservableCollection<Item> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
