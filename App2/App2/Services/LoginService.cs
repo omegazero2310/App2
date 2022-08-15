@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace App2.Services
 {
@@ -17,42 +18,12 @@ namespace App2.Services
     /// </Modified>
     public class LoginService
     {
-        private static HttpClient _httpClient;
-        private string baseUrl = "http://10.1.11.100:8000/api/";
-
-        ~LoginService()
-        {
-            _httpClient?.Dispose();
-        }
-        private void GetClient()
-        {
-            if (_httpClient == null)
-            {
-            #if DEBUG
-                HttpClientHandler insecureHandler = GetInsecureHandler();
-                _httpClient = new HttpClient(insecureHandler);
-            #else
-                HttpClient client = new HttpClient();
-            #endif
-            }
-        }
-        public HttpClientHandler GetInsecureHandler()
-        {
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
-            {
-                if (cert.Issuer.Equals("CN=localhost"))
-                    return true;
-                return errors == System.Net.Security.SslPolicyErrors.None;
-            };
-            return handler;
-        }
+        private HttpClient _httpClient = DependencyService.Get<HttpClient>();
         public async Task<string> Login(string userName, string password)
         {
             try
             {
-                GetClient();
-                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, baseUrl + "Account");
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, "Account");
                 UserLogin userLogin = new UserLogin();
                 userLogin.UserName = userName;
                 userLogin.Password = password;

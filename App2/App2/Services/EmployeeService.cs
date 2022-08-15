@@ -10,6 +10,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace App2.Services
 {
@@ -20,23 +21,12 @@ namespace App2.Services
     /// </Modified>
     internal class EmployeeService : IDataStore<Employee>
     {
-        private static HttpClient _httpClient;
-        private string _baseUrl = "http://10.1.11.100:8000/api/";
+        private static HttpClient _httpClient = DependencyService.Get<HttpClient>();
         private UserTokens _userTokens;
         private SQLiteAsyncConnection _conn;
         private string _localDBPath = System.IO.Path.Combine(FileSystem.AppDataDirectory, typeof(EmployeeService).Assembly.GetName().Name + ".db3");
-        private void GetHttpClient()
+        private void GetToken()
         {
-            if (_httpClient == null)
-            {
-#if DEBUG
-                HttpClientHandler insecureHandler = GetInsecureHandler();
-                _httpClient = new HttpClient(insecureHandler);
-#else
-                HttpClient client = new HttpClient();
-#endif
-
-            }
             if (_userTokens == null)
             {
                 var getJwtString = SecureStorage.GetAsync("JWT").Result;
@@ -49,7 +39,6 @@ namespace App2.Services
         }
         ~EmployeeService()
         {
-            _httpClient?.Dispose();
             _conn?.CloseAsync();
         }
         private async Task InitDB()
@@ -60,23 +49,12 @@ namespace App2.Services
             _conn = new SQLiteAsyncConnection(this._localDBPath);
             await _conn.CreateTableAsync<Employee>();
         }
-        public HttpClientHandler GetInsecureHandler()
-        {
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
-            {
-                if (cert.Issuer.Equals("CN=localhost"))
-                    return true;
-                return errors == System.Net.Security.SslPolicyErrors.None;
-            };
-            return handler;
-        }
         public async Task<bool> AddItemAsync(Employee item)
         {
             try
             {
-                GetHttpClient();
-                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, _baseUrl + "Employee");
+                this.GetToken();
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, "Employee");
                 message.Content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
                 //Get Token from SecureStorage
                 message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _userTokens.Token);
@@ -96,14 +74,14 @@ namespace App2.Services
         {
             try
             {
-                GetHttpClient();
-                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Delete, _baseUrl + "Employee/" + id);
+                this.GetToken();
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Delete, "Employee/" + id);
                 //Get Token from SecureStorage
                 message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _userTokens.Token);
                 var respone = await _httpClient.SendAsync(message);
                 respone.EnsureSuccessStatusCode();
                 await this.InitDB();
-                await _conn.DeleteAsync(new Employee { Id = id});
+                await _conn.DeleteAsync(new Employee { Id = id });
                 return true;
             }
             catch (Exception)
@@ -124,8 +102,8 @@ namespace App2.Services
                 }
                 else
                 {
-                    GetHttpClient();
-                    HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, _baseUrl + "Employee/" + id);
+                    this.GetToken();
+                    HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, "Employee/" + id);
                     //Get Token from SecureStorage
                     message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _userTokens.Token);
                     var respone = await _httpClient.SendAsync(message);
@@ -133,7 +111,7 @@ namespace App2.Services
                     await this.InitDB();
                     await _conn.InsertOrReplaceAsync(JsonConvert.DeserializeObject<Employee>(respone.Content.ReadAsStringAsync().Result));
                     return JsonConvert.DeserializeObject<Employee>(respone.Content.ReadAsStringAsync().Result);
-                }               
+                }
             }
             catch (Exception)
             {
@@ -153,8 +131,8 @@ namespace App2.Services
                 }
                 else
                 {
-                    GetHttpClient();
-                    HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, _baseUrl + "Employee");
+                    this.GetToken();
+                    HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, "Employee");
                     //Get Token from SecureStorage
                     message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _userTokens.Token);
                     var respone = await _httpClient.SendAsync(message);
@@ -163,7 +141,7 @@ namespace App2.Services
                     await _conn.DeleteAllAsync<Employee>();
                     await _conn.InsertAllAsync(JsonConvert.DeserializeObject<IEnumerable<Employee>>(respone.Content.ReadAsStringAsync().Result));
                     return JsonConvert.DeserializeObject<IEnumerable<Employee>>(respone.Content.ReadAsStringAsync().Result);
-                }                   
+                }
             }
             catch (Exception)
             {
@@ -176,8 +154,8 @@ namespace App2.Services
         {
             try
             {
-                GetHttpClient();
-                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Put, _baseUrl + "Employee");
+                this.GetToken();
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Put, "Employee");
                 message.Content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
                 //Get Token from SecureStorage
                 message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _userTokens.Token);
