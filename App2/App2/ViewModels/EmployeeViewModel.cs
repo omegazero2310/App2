@@ -33,7 +33,7 @@ namespace App2.ViewModels
         public Command<Employee> EmployeeSwipeDelete { get; }
         public Command<Employee> EmployeeSwipeEdit { get; }
 
-        public EmployeeViewModel()
+        public EmployeeViewModel() : base()
         {
             Title = "List Employee";
             Employees = new ObservableCollection<Employee>();
@@ -51,14 +51,8 @@ namespace App2.ViewModels
             IsBusy = true;
 
             try
-            {
+            {              
                 Employees.Clear();
-                if (Connectivity.NetworkAccess == NetworkAccess.None)
-                {
-                    await App.Current.MainPage.DisplayAlert("Cannot connect", "Check your internet connection", "Ok");
-                    this.IsBusy = false;
-                    return;
-                }
                 var listEmployees = await DataStore.GetItemsAsync(true);
                 foreach (var item in listEmployees)
                 {
@@ -85,7 +79,10 @@ namespace App2.ViewModels
 
         private async void OnAddEmployee(object obj)
         {
-            await Shell.Current.GoToAsync(nameof(NewEmployeePage));
+            if (!IsDisconnected)
+                await Shell.Current.GoToAsync(nameof(NewEmployeePage));
+            else
+                await App.Current.MainPage.DisplayAlert("Cannot connect to the Server", "Check your internet connection", "Ok");
         }
 
         private async void OnEmployeeSelected(Employee item)
@@ -100,28 +97,40 @@ namespace App2.ViewModels
         {
             try
             {
-                if (item == null)
-                    return;
-                var result = await App.Current.MainPage.DisplayAlert("Confirm Delete", $"Are you sure to delete User {item.Id} ?", "Confirm", "Cancel", FlowDirection.LeftToRight);
-                if (result)
+                if (!IsDisconnected)
                 {
-                    await DataStore.DeleteItemAsync(item.Id);
-                    Employees.Remove(Employees.Where(s => s.Id == item.Id).First());
+                    if (item == null)
+                        return;
+                    var result = await App.Current.MainPage.DisplayAlert("Confirm Delete", $"Are you sure to delete User {item.Id} ?", "Confirm", "Cancel", FlowDirection.LeftToRight);
+                    if (result)
+                    {
+                        await DataStore.DeleteItemAsync(item.Id);
+                        Employees.Remove(Employees.Where(s => s.Id == item.Id).First());
+                    }
                 }
+                else
+                    await App.Current.MainPage.DisplayAlert("Cannot connect to the Server", "Check your internet connection", "Ok");
+
             }
             catch (Exception ex)
             {
                 await App.Current.MainPage.DisplayAlert("Server Error", $"{ex.Message} ?", "OK");
             }
-            
+
         }
         private async void OnEmployeeEdit(Employee item)
         {
             try
             {
-                if (item == null)
-                    return;
-                await Shell.Current.GoToAsync($"{nameof(NewEmployeePage)}?{nameof(NewEmployeeViewModel.EmployeeID)}={item.Id}");
+                if (!IsDisconnected)
+                {
+                    if (item == null)
+                        return;
+                    await Shell.Current.GoToAsync($"{nameof(NewEmployeePage)}?{nameof(NewEmployeeViewModel.EmployeeID)}={item.Id}");
+                }
+                else
+                    await App.Current.MainPage.DisplayAlert("Cannot connect to the Server", "Check your internet connection", "Ok");
+
             }
             catch (Exception ex)
             {

@@ -12,61 +12,76 @@
       x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
       https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
     -->
-    <RefreshView Command="{Binding LoadEmployeesCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <CollectionView x:Name="ItemsListView"
+    <StackLayout>
+        <StackLayout 
+             IsVisible="{Binding IsDisconnected}" 
+             BackgroundColor="OrangeRed">
+
+            <Label Text="No Internet Connection !"
+                   TextColor="White"
+                   HorizontalOptions="CenterAndExpand"
+                   Margin="20"/>
+        </StackLayout>
+        <RefreshView Command="{Binding LoadEmployeesCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <StackLayout>
+                <CollectionView x:Name="ItemsListView"
                 ItemsSource="{Binding Employees}"
                 SelectionMode="Single">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <SwipeView>
-                        <!-- Command swipe right-->
-                        <SwipeView.RightItems>
-                            <SwipeItems>
-                                <SwipeItem Text="Delete"
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView>
+                                <!-- Command swipe right-->
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Delete"
                                            IconImageSource="delete.png"
                                            BackgroundColor="LightPink"
                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:EmployeeViewModel}}, Path=EmployeeSwipeDelete}"		
                                            CommandParameter="{Binding .}" />
-                                <SwipeItem Text="Edit"
+                                        <SwipeItem Text="Edit"
                                            IconImageSource="Edit.png"
                                            BackgroundColor="LightGreen"
                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:EmployeeViewModel}}, Path=EmployeeSwipeEdit}"		
                                            CommandParameter="{Binding .}" />
-                            </SwipeItems>
-                        </SwipeView.RightItems>
-                        <!-- Data -->
-                        <Grid>
-                            <Grid.ColumnDefinitions/>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <!-- Data -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions/>
 
-                            <StackLayout Padding="10" Grid.Column="0">
-                                <Label Text="{Binding Id}" 
+                                    <StackLayout Padding="10" Grid.Column="0">
+                                        <Label Text="{Binding Id}" 
                                     LineBreakMode="NoWrap" 
                                     Style="{DynamicResource ListItemTextStyle}" 
                                     FontSize="16" />
-                                <Label Text="{Binding Name}" 
+                                        <Label Text="{Binding Name}" 
                                     LineBreakMode="NoWrap"
                                     Style="{DynamicResource ListItemDetailTextStyle}"
                                     FontSize="13" />
-                                <Label Text="{Binding DateOfBirth}" 
+                                        <Label Text="{Binding DateOfBirth}" 
                                     LineBreakMode="NoWrap"
                                     Style="{DynamicResource ListItemDetailTextStyle}"
                                     FontSize="13" />
-                                <Label Text="{Binding ExtraInfo}" 
+                                        <Label Text="{Binding ExtraInfo}" 
                                     LineBreakMode="NoWrap"
                                     Style="{DynamicResource ListItemDetailTextStyle}"
                                     FontSize="13" />
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer 
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer 
                                             NumberOfTapsRequired="1"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type local:EmployeeViewModel}}, Path=EmployeeTapped}"		
                                             CommandParameter="{Binding .}">
-                                    </TapGestureRecognizer>
-                                </StackLayout.GestureRecognizers>
-                            </StackLayout>
-                        </Grid>
-                    </SwipeView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </RefreshView>
+                                            </TapGestureRecognizer>
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                </Grid>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+
+        </RefreshView>
+    </StackLayout>
+    
 </ContentPage>
