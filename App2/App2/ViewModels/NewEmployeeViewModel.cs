@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
+using static SQLite.SQLite3;
 
 namespace App2.ViewModels
 {
@@ -18,8 +19,10 @@ namespace App2.ViewModels
         private bool _isNew;
         private string _errorStr;
         public IDataStore<Employee> DataStore => DependencyService.Get<IDataStore<Employee>>();
+        public Dictionary<string, string> ErrorMessages { get; set; }
         public NewEmployeeViewModel()
         {
+            this.ErrorMessages = new Dictionary<string, string>();
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
             this.PropertyChanged +=
@@ -48,7 +51,7 @@ namespace App2.ViewModels
                 _errorStr = value;
                 OnPropertyChanged();
             }
-        }    
+        }
         public string EmployeeID
         {
             get => _id;
@@ -107,13 +110,14 @@ namespace App2.ViewModels
                     ExtraInfo = _extraInfo ?? string.Empty
                 };
                 EmployeeValidator validationRules = new EmployeeValidator();
-                var reasult = validationRules.Validate(newEmployee);
-                if (reasult.Errors.Count > 0)
+                var result = validationRules.Validate(newEmployee);
+                if (!result.IsValid)
                 {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    foreach (var error in reasult.Errors)
-                        stringBuilder.AppendLine(error.ErrorMessage);
-                    this.ErrorStr = stringBuilder.ToString();
+                    foreach (var e in result.Errors)
+                    {
+                        ErrorMessages[e.PropertyName] = e.ErrorMessage;
+                    }
+                    OnPropertyChanged(nameof(ErrorMessages));
                     return;
                 }
                 else
@@ -130,7 +134,7 @@ namespace App2.ViewModels
             {
                 await App.Current.MainPage.DisplayAlert("Server Error", ex.Message, "OK");
             }
-                         
+
         }
         private async void GetEmployee(string value)
         {
