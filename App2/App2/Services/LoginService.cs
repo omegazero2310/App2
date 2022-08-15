@@ -10,6 +10,11 @@ using Xamarin.Essentials;
 
 namespace App2.Services
 {
+    /// <summary>Check user login and get JWT token</summary>
+    /// <Modified>
+    /// Name Date Comments
+    /// annv3 15/08/2022 created
+    /// </Modified>
     public class LoginService
     {
         private static HttpClient _httpClient;

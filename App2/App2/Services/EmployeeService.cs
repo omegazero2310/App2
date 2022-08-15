@@ -13,6 +13,11 @@ using Xamarin.Essentials;
 
 namespace App2.Services
 {
+    /// <summary>CRUD for [Employee] table</summary>
+    /// <Modified>
+    /// Name Date Comments
+    /// annv3 15/08/2022 created
+    /// </Modified>
     internal class EmployeeService : IDataStore<Employee>
     {
         private static HttpClient _httpClient;

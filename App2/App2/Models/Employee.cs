@@ -9,6 +9,7 @@ namespace App2.Models
     /// <Modified>
     /// Name Date Comments
     /// annv3 8/9/2022 created
+    /// annv3 15/08/2022 add attribute for sqllite
     /// </Modified>
     [Table("Employee")]
     public class Employee

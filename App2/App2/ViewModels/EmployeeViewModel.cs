@@ -11,6 +11,11 @@ using Xamarin.Essentials;
 
 namespace App2.ViewModels
 {
+    /// <summary>[ViewModel] for listing all employee in table [Employee]</summary>
+    /// <Modified>
+    /// Name Date Comments
+    /// annv3 15/08/2022 created
+    /// </Modified>
     public class EmployeeViewModel : BaseViewModel
     {
 

@@ -9,6 +9,11 @@ using Xamarin.Forms;
 
 namespace App2.ViewModels
 {
+    /// <summary>[ViewModel] User login</summary>
+    /// <Modified>
+    /// Name Date Comments
+    /// annv3 15/08/2022 created
+    /// </Modified>
     public class LoginViewModel : BaseViewModel
     {
         public Command LoginCommand { get; }

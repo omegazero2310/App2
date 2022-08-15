@@ -8,6 +8,11 @@ using Xamarin.Forms;
 
 namespace App2.ViewModels
 {
+    /// <summary>[ViewModel] view single employee info</summary>
+    /// <Modified>
+    /// Name Date Comments
+    /// annv3 15/08/2022 created
+    /// </Modified>
     [QueryProperty(nameof(EmployeeID), nameof(EmployeeID))]
     public class EmployeeDetailViewModel : BaseViewModel
     {
