@@ -21,7 +21,7 @@
                     </Frame>
                     <StackLayout Grid.Row="1" Padding="10,0,10,0" VerticalOptions="Center">
                         <Entry x:Name="txtUserName" Placeholder="User Name" Text="{Binding UserName, Mode=TwoWay}" ReturnType="Next"  IsTextPredictionEnabled="False" IsSpellCheckEnabled="False"/>
-                        <Entry x:Name="txtPassword" IsPassword="True" Placeholder="Password" Text="{Binding Password, Mode=TwoWay}" ReturnType="Next" />
+                        <Entry x:Name="txtPassword" IsPassword="True" Placeholder="Password" Text="{Binding Password, Mode=TwoWay}" ReturnType="Done" />
                         <Button x:Name="btnLogin" VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}" IsEnabled="{Binding IsAllowLogin}" />
                     </StackLayout>
                     

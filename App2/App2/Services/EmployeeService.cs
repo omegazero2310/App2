@@ -37,6 +37,10 @@ namespace App2.Services
                 //}
             }
         }
+        ~EmployeeService()
+        {
+            _httpClient?.Dispose();
+        }
         public HttpClientHandler GetInsecureHandler()
         {
             HttpClientHandler handler = new HttpClientHandler();

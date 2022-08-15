@@ -11,7 +11,7 @@ namespace App2.ViewModels
     {
         private string _id;
         private string _name;
-        private DateTime? _dob;
+        private DateTime? _dob = DateTime.Now;
         private string _extraInfo;
         public IDataStore<Employee> DataStore => DependencyService.Get<IDataStore<Employee>>();
         public NewEmployeeViewModel()

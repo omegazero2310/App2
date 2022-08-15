@@ -13,7 +13,7 @@
             <Label Text="Name" FontSize="Medium" />
             <Editor Text="{Binding Name, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
             <Label Text="Date Of Birth" FontSize="Medium" />
-            <DatePicker Date="{Binding DateOfBirth, Mode=TwoWay}" FontSize="Medium" Margin="0"/>
+            <DatePicker Date="{Binding DateOfBirth, Mode=TwoWay}" FontSize="Medium" Margin="0" Format="dd/MM/yyyy"/>
             <Label Text="Extra Info" FontSize="Medium" />
             <Editor Text="{Binding ExtraInfo, Mode=TwoWay}" Placeholder="Enter employee extra info here"/>
             <StackLayout Orientation="Horizontal">
