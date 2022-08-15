@@ -14,6 +14,7 @@ namespace App2.ViewModels
         private string _name;
         private DateTime? _dob = DateTime.Now;
         private string _extraInfo;
+        private bool _isNew;
         public IDataStore<Employee> DataStore => DependencyService.Get<IDataStore<Employee>>();
         public NewEmployeeViewModel()
         {
@@ -21,6 +22,7 @@ namespace App2.ViewModels
             CancelCommand = new Command(OnCancel);
             this.PropertyChanged +=
                 (_, __) => SaveCommand.ChangeCanExecute();
+            this.IsNew = true;
         }
 
         private bool ValidateSave()
@@ -28,23 +30,34 @@ namespace App2.ViewModels
             return !String.IsNullOrWhiteSpace(_id)
                 && !String.IsNullOrWhiteSpace(_name) && _dob.HasValue;
         }
-        public bool IsNew { get; set; } = true;
+        public bool IsNew 
+        {
+            get => _isNew;
+            set
+            {
+                _isNew = value;
+                OnPropertyChanged();
+            }
+        }
         public string EmployeeID
         {
             get => _id;
             set
             {
+                this.IsNew = false;
                 _id = value;
                 GetEmployee(value);
             }
         }
 
-
-
         public string Id
         {
             get => _id;
-            set => SetProperty(ref _id, value);
+            set
+            {
+                SetProperty(ref _id, value);
+                OnPropertyChanged();
+            }
         }
 
         public string Name

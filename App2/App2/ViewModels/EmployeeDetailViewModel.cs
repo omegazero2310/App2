@@ -20,23 +20,39 @@ namespace App2.ViewModels
         public string Id
         {
             get => _id;
-            set => SetProperty(ref _id, value);
+            set 
+            { 
+                SetProperty(ref _id, value);
+                OnPropertyChanged();
+            }
         }
         public string Name
         {
             get => _name;
-            set => SetProperty(ref _name, value);
+            set
+            {
+                SetProperty(ref _name, value);
+                OnPropertyChanged();
+            }
         }
 
         public string ExtraInfo
         {
             get => _extraInfo;
-            set => SetProperty(ref _extraInfo, value);
+            set
+            {
+                SetProperty(ref _extraInfo, value);
+                OnPropertyChanged();
+            }
         }
         public DateTime DateOfBirth
         {
             get => _dob.Value;
-            set => SetProperty(ref _dob, value);
+            set
+            {
+                SetProperty(ref _dob, value);
+                OnPropertyChanged();
+            }
         }
 
         public string EmployeeID
