@@ -19,7 +19,7 @@ namespace App2.Models
         [MaxLength(250)]
         public string Name { get; set; }
         public System.DateTime DateOfBirth { get; set; }
-        [MaxLength(250), Unique]
+        [MaxLength(250)]
         public string ExtraInfo { get; set; }
 
     }

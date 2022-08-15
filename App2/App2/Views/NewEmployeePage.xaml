@@ -16,6 +16,7 @@
             <DatePicker Date="{Binding DateOfBirth, Mode=TwoWay}" FontSize="Medium" Margin="0" Format="dd/MM/yyyy"/>
             <Label Text="Extra Info" FontSize="Medium" />
             <Editor Text="{Binding ExtraInfo, Mode=TwoWay}" Placeholder="Enter employee extra info here"/>
+            <Label Text="{Binding ErrorStr}" TextColor="Red"/>
             <StackLayout Orientation="Horizontal">
                 <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
                 <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>

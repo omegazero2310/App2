@@ -1,5 +1,6 @@
 ﻿using App2.Models;
 using App2.Services;
+using App2.Validators;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,7 @@ namespace App2.ViewModels
         private DateTime? _dob = DateTime.Now;
         private string _extraInfo;
         private bool _isNew;
+        private string _errorStr;
         public IDataStore<Employee> DataStore => DependencyService.Get<IDataStore<Employee>>();
         public NewEmployeeViewModel()
         {
@@ -27,10 +29,9 @@ namespace App2.ViewModels
 
         private bool ValidateSave()
         {
-            return !String.IsNullOrWhiteSpace(_id)
-                && !String.IsNullOrWhiteSpace(_name) && _dob.HasValue;
+            return true;
         }
-        public bool IsNew 
+        public bool IsNew
         {
             get => _isNew;
             set
@@ -39,6 +40,15 @@ namespace App2.ViewModels
                 OnPropertyChanged();
             }
         }
+        public string ErrorStr
+        {
+            get => _errorStr;
+            set
+            {
+                _errorStr = value;
+                OnPropertyChanged();
+            }
+        }    
         public string EmployeeID
         {
             get => _id;
@@ -87,19 +97,40 @@ namespace App2.ViewModels
 
         private async void OnSave()
         {
-            Employee newEmployee = new Employee()
+            try
             {
-                Id = _id,
-                Name = _name,
-                DateOfBirth = _dob.Value,
-                ExtraInfo = _extraInfo
-            };
-            if (this.IsNew)
-                await DataStore.AddItemAsync(newEmployee);
-            else
-                await DataStore.UpdateItemAsync(newEmployee);
-            // This will pop the current page off the navigation stack
-            await Shell.Current.GoToAsync("..");
+                Employee newEmployee = new Employee()
+                {
+                    Id = _id,
+                    Name = _name,
+                    DateOfBirth = _dob.Value,
+                    ExtraInfo = _extraInfo ?? string.Empty
+                };
+                EmployeeValidator validationRules = new EmployeeValidator();
+                var reasult = validationRules.Validate(newEmployee);
+                if (reasult.Errors.Count > 0)
+                {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    foreach (var error in reasult.Errors)
+                        stringBuilder.AppendLine(error.ErrorMessage);
+                    this.ErrorStr = stringBuilder.ToString();
+                    return;
+                }
+                else
+                {
+                    this.ErrorStr = string.Empty;
+                    if (this.IsNew)
+                        await DataStore.AddItemAsync(newEmployee);
+                    else
+                        await DataStore.UpdateItemAsync(newEmployee);
+                    await Shell.Current.GoToAsync("..");
+                }
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Server Error", ex.Message, "OK");
+            }
+                         
         }
         private async void GetEmployee(string value)
         {
