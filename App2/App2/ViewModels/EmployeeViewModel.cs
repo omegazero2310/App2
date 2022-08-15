@@ -30,6 +30,7 @@ namespace App2.ViewModels
         public Command AddEmployeeCommand { get; }
         public Command<Employee> EmployeeTapped { get; }
         public Command<Employee> EmployeeSwipeDelete { get; }
+        public Command<Employee> EmployeeSwipeEdit { get; }
 
         public EmployeeViewModel()
         {
@@ -39,6 +40,7 @@ namespace App2.ViewModels
 
             EmployeeTapped = new Command<Employee>(OnEmployeeSelected);
             EmployeeSwipeDelete = new Command<Employee>(OnEmployeeDelete);
+            EmployeeSwipeEdit = new Command<Employee>(OnEmployeeEdit);
 
             AddEmployeeCommand = new Command(OnAddEmployee);
         }
@@ -105,6 +107,20 @@ namespace App2.ViewModels
                 await App.Current.MainPage.DisplayAlert("Server Error", $"{ex.Message} ?", "OK");
             }
             
+        }
+        private async void OnEmployeeEdit(Employee item)
+        {
+            try
+            {
+                if (item == null)
+                    return;
+                await Shell.Current.GoToAsync($"{nameof(NewEmployeePage)}?{nameof(NewEmployeeViewModel.EmployeeID)}={item.Id}");
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Server Error", $"{ex.Message} ?", "OK");
+            }
+
         }
     }
 }

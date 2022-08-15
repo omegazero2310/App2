@@ -27,6 +27,11 @@
                                            BackgroundColor="LightPink"
                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:EmployeeViewModel}}, Path=EmployeeSwipeDelete}"		
                                            CommandParameter="{Binding .}" />
+                                <SwipeItem Text="Edit"
+                                           IconImageSource="Edit.png"
+                                           BackgroundColor="LightGreen"
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type local:EmployeeViewModel}}, Path=EmployeeSwipeEdit}"		
+                                           CommandParameter="{Binding .}" />
                             </SwipeItems>
                         </SwipeView.RightItems>
                         <!-- Data -->

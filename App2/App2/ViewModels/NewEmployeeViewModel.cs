@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 namespace App2.ViewModels
 {
+    [QueryProperty(nameof(EmployeeID), nameof(EmployeeID))]
     public class NewEmployeeViewModel : BaseViewModel
     {
         private string _id;
@@ -27,6 +28,18 @@ namespace App2.ViewModels
             return !String.IsNullOrWhiteSpace(_id)
                 && !String.IsNullOrWhiteSpace(_name) && _dob.HasValue;
         }
+        public bool IsNew { get; set; } = true;
+        public string EmployeeID
+        {
+            get => _id;
+            set
+            {
+                _id = value;
+                GetEmployee(value);
+            }
+        }
+
+
 
         public string Id
         {
@@ -68,11 +81,21 @@ namespace App2.ViewModels
                 DateOfBirth = _dob.Value,
                 ExtraInfo = _extraInfo
             };
-
-            await DataStore.AddItemAsync(newEmployee);
-
+            if (this.IsNew)
+                await DataStore.AddItemAsync(newEmployee);
+            else
+                await DataStore.UpdateItemAsync(newEmployee);
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
+        }
+        private async void GetEmployee(string value)
+        {
+            var item = await DataStore.GetItemAsync(value);
+            Id = item.Id;
+            Name = item.Name;
+            DateOfBirth = item.DateOfBirth;
+            ExtraInfo = item.ExtraInfo;
+            this.IsNew = false;
         }
     }
 }
