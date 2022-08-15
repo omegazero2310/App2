@@ -14,6 +14,11 @@ namespace App2.Services
     {
         private static HttpClient _httpClient;
         private string baseUrl = "http://10.1.11.100:8000/api/";
+
+        ~LoginService()
+        {
+            _httpClient?.Dispose();
+        }
         private void GetClient()
         {
             if (_httpClient == null)

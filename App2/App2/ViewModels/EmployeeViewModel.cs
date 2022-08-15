@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Linq;
+using Xamarin.Essentials;
 
 namespace App2.ViewModels
 {
@@ -52,6 +53,12 @@ namespace App2.ViewModels
             try
             {
                 Employees.Clear();
+                if (Connectivity.NetworkAccess == NetworkAccess.None)
+                {
+                    await App.Current.MainPage.DisplayAlert("Cannot connect", "Check your internet connection", "Ok");
+                    this.IsBusy = false;
+                    return;
+                }
                 var listEmployees = await DataStore.GetItemsAsync(true);
                 foreach (var item in listEmployees)
                 {
